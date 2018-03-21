@@ -1,108 +1,163 @@
+// #include "stdafx.h"
 #include<stdio.h>
 #include<stdlib.h>
-#define ERROR 0
-#define OK 1
 typedef int ElemType;
 typedef int Status;
+#define ERROR 0
+#define OK 1
+
+typedef struct Node {
+	ElemType element;
+	struct Node * link;
+}Node;
 
 typedef struct {
+	struct Node* first;
 	int n;
-	int maxLength;
-	ElemType *element;
-}SeqList;
+}SingleList;
 
-
-Status Init(SeqList *L, int mSize);
-Status Output(SeqList L);
-void Inverse(SeqList *L, int mSize);
-Status Insert(SeqList *L, int i, ElemType x);
+Status Init(SingleList *L);
+Status Output(SingleList L);
+//void Inverse(SingleList *L, int n);
+void Inverse(SingleList *L);
+Status Insert(SingleList *L, int i, ElemType x);
 // Status Delete(SeqList *L,int i);
 // void Destory(SeqList *L);
 
 
-// Ë³Ðò±í³õÊ¼»¯
-Status Init(SeqList *L, int mSize) {
-	L->maxLength = mSize;
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
+Status Init(SingleList *L) {
+	L->first = NULL;
 	L->n = 0;
-	L->element = (ElemType*)malloc(sizeof(ElemType)*mSize);
-	if(!L->element)
-		return ERROR;
 	return OK;
 }
 
-void Inverse(SeqList *L, int mSize) {
-	int i, temp;
-	for (i = 0; i < mSize / 2; i++) {
-		temp = L->element[i];
-		L->element[i] = L->element[mSize - 1 - i];
-		L->element[mSize - 1 - i] = temp;
+/*
+void Inverse(SingleList *L, int n) {
+	Node *p,*q,*t;
+	int i,j;
+	p=L->first;
+	t=L->first;
+	for(j=0;j<n-3;j++){
+		p=p->link;
+	}
+	for(j=0;j<n-1;j++){
+		t=t->link;
+	}
+	q=malloc(sizeof(Node));
+	q->element = t->element;
+	for(i=n-3;i>=0;i--){
+		q->link=p->link;
+		q--;
+		p->link=t;
+		p--;
+	}
+}
+*/
+
+/*
+void Inverse(SingleList *L, int n){
+	Node *p,*q,*t,*r;
+	int i,j;
+	r=L->first;  //å§‹ç»ˆæŒ‡å‘ç¬¬ä¸€ä¸ªç»“ç‚¹
+	p=L->first;
+	for(i=1;i<n;i++){
+		t=L->first;
+		for(j=0;j<i;j++){
+			t=t->link;
+		}
+		q=t;
+		L->first=q; //firstç»“ç‚¹
+		p->link=q->link;
+		q->link=r;
+	}
+}
+*/
+
+/*
+void Inverse(SingleList *L, int n){
+	Node *p,*q,*q1;
+	p=L->first;
+	q=p->link;
+	p->link=NULL;
+	if(n==1) return 0;
+	if(n>=2){
+		while(q->link!=NULL){
+			q1=q->link;
+			q->link=p;
+			p=q;
+			//p->link=NULL; 
+			q=q1;
+		}
+		q->link=p;
+		L->first=q;
+	}
+}
+*/
+
+void Inverse(SingleList *L){
+	Node *p=L->first,*q;
+	L->first = NULL;
+	while(p){
+		q=p->link;
+		p->link=L->first;
+		L->first=p;
+		p=q;
 	}
 }
 
-Status Insert(SeqList *L, int i, ElemType x) {
+Status Insert(SingleList *L, int i, ElemType x) {
+	Node *p, *q;
 	int j;
 	if (i<-1 || i>L->n - 1)
 		return ERROR;
-	if (L->n == L->maxLength)
-		return ERROR;
-	for (j = L->n - 1; j > i; j--) {
-		L->element[j + 1] = L->element[j];
+	p = L->first;
+	for (j = 0; j < i; j++) {
+		p = p->link;
 	}
-	L->element[i + 1] = x;
-	L -> n = L->n + 1;
+	q = malloc(sizeof(Node));
+	q->element = x;
+	if (i > -1) {
+		q->link = p->link;
+		p->link = q;
+	}
+	else {
+		q->link = L->first;
+		L->first = q;
+	}
+	L->n++;
 	return OK;
 }
 
 
-// Ë³Ðò±íÊä³ö
-Status Output(SeqList L) {
-	int i;
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+Status Output(SingleList L) {
+	Node *p;
 	if (!L.n)
 		return ERROR;
-	for (i = 0; i <= L.n - 1; i++)
-		printf("%d ", L.element[i]);  //´ÓÇ°ÍùºóÖð¸öÊä³öÔªËØ
-	return OK;
-}
-
-/*
-Status Delete(SeqList *L,int i){
-	int j;
-	if (i<0 || i>L->n - 1)
-		return ERROR;
-	if (!L->n)
-		return ERROR;
-	for (j =i+1; j < L->n; j++) {
-		L->element[j - 1] = L->element[j];
+	p = L.first;
+	while (p) {
+		printf("%d ",p->element);  //ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½
+		p = p->link;
 	}
-	L -> n --;
 	return OK;
 }
-*/
 
-/*
-void Destory(SeqList *L){
-	(*L).n=0;
-	(*L).maxLength=0;
-	free((*L).element);
-}
-*/
-
-int main()
+void main()
 {
-	int i,x,nn;
-	scanf("%d",&nn);
+	int i, x, nn;
+	SingleList list;
+	scanf("%d", &nn);
 	printf("\n");
-	SeqList list;
-	Init(&list, nn);  // ¶ÔÏßÐÔ±í³õÊ¼»¯
+	Init(&list);  // ï¿½Ôµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
 	for (i = 0; i < nn; i++) {
-		scanf("%d",&x);
+		scanf("%d", &x);
 		Insert(&list, i - 1, x);
 	}
 	Output(list);
-	Inverse(&list,nn);
+	// Inverse(&list, nn);
+	Inverse(&list);
 	printf("\n");
 	Output(list);
 	printf("\n");
-	// Delete(&list,0);
-	// Destory(&list);
 }
