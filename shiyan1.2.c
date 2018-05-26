@@ -6,29 +6,29 @@ typedef int Status;
 #define OK 1
 
 typedef struct Node {
-	ElemType element;
-	struct Node * link;
+	ElemType element;     //结点的数据域
+	struct Node * link;   //结点的指针域
 }Node;
 
 typedef struct {
-	struct Node* head;
+	struct Node* head;    //表头结点
 	int n;
 }HeaderList;
 
 
-
-// 带表头单链表的初始化
+//带表头结点单链表的初始化
 Status Init(HeaderList *h) {
-    h->head=(Node*)malloc(sizeof(Node));
+    h->head=(Node*)malloc(sizeof(Node));      //生成表头结点
     if(!h->head){
         return ERROR;
     }
-	h->head->link = NULL;
+	h->head->link = NULL;                     //设置单链表为空表
 	h->n = 0;
 	return OK;
 }
 
-// 带表头单链表的查找
+
+//带表头结点单链表的查找
 Status Find(HeaderList *h,int i,ElemType *x){
     Node *p;
     int j;
@@ -44,25 +44,26 @@ Status Find(HeaderList *h,int i,ElemType *x){
 }
 
 
-// 带表头单链表的插入
+//带表头结点单链表的插入
 Status Insert(HeaderList *h, int i, ElemType x) {
 	Node *p, *q;
 	int j;
 	if (i<-1 || i>h->n - 1)
 		return ERROR;
-	p = h->head;
+	p = h->head;                      //从头结点开始找ai元素所在的结点p
 	for (j = 0; j <= i; j++) {
 		p = p->link;
 	}
-	q = (Node*)malloc(sizeof(Node));
+	q = (Node*)malloc(sizeof(Node));  //生成新结点q
 	q->element = x;
-	q->link = p->link;
+	q->link = p->link;                //新结点q插在p之后
 	p->link = q;
 	h->n++;
 	return OK;
 }
 
-// 带表头单链表的删除
+
+//带表头结点单链表的删除
 Status Delete(HeaderList *h,int i){
     int j;
     Node *p,*q;
@@ -77,14 +78,14 @@ Status Delete(HeaderList *h,int i){
         q=q->link;
     }
     p=q->link;
-    q->link=p->link;
-    free(p);
+    q->link=p->link;                //从单链表中删除p所指结点
+    free(p);                        //释放p所指结点的存储空间
     h->n--;
     return OK;
 }
 
 
-// 带表头单链表的输出
+//带表头结点单链表的输出
 Status Output(HeaderList *h) {
 	Node *p;
 	if (!h->n)
@@ -97,7 +98,8 @@ Status Output(HeaderList *h) {
 	return OK;
 }
 
-// 带表头单链表的撤销
+
+//带表头结点单链表的撤销
 void Destroy(HeaderList *h){
     Node *p,*q;
     while(h->head->link){
@@ -108,20 +110,22 @@ void Destroy(HeaderList *h){
     }
 }
 
+
+
 void main()
 {
 	int i, x;
 	HeaderList list;
 	Init(&list);
 	for (i = 0; i < 9; i++) {
-		Insert(&list, i - 1, i);
+		Insert(&list, i - 1, i);    //插入0~8
 	}
-    printf("\nthe linklist is:");
+    printf("the linklist is:");
 	Output(&list);
-    Delete(&list,0);
+    Delete(&list,0);                //删除0
     printf("\nthe linklist is:");
     Output(&list);
-    Find(&list,0,&x);
+    Find(&list,0,&x);               //查找下标为0的元素
 	printf("\nthe value is:");
 	printf("%d ",x);
     Destroy(&list);
