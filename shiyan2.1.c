@@ -7,51 +7,51 @@ typedef struct BinaryTreeNode{
 }BinaryTreeNode;
 
 
-// 前序遍历
+//先序遍历
 void PreOrderTransverse(BinaryTreeNode *t){
     if(t==NULL){
         return;
     }
-    printf("%c",t->Data);
-    PreOrderTransverse(t->LChild);
-    PreOrderTransverse(t->RChild);
+    printf("%c",t->Data);           //打印输出根结点，此处可以定义其他操作
+    PreOrderTransverse(t->LChild);  //然后先序遍历左子树
+    PreOrderTransverse(t->RChild);  //最后先序遍历右子树
 }
 
 
-// 中序遍历
+//中序遍历
 void InOrderTransverse(BinaryTreeNode *t){
     if(t==NULL){
         return;
     }
-    InOrderTransverse(t->LChild);
-    printf("%c",t->Data);
-    InOrderTransverse(t->RChild);
+    InOrderTransverse(t->LChild);  //中序遍历根结点的左子树
+    printf("%c",t->Data);          //打印输出根结点，此处可以定义其他操作
+    InOrderTransverse(t->RChild);  //最后中序遍历根结点的右子树
 }
 
 
-// 后序遍历
+//后序遍历
 void PostOrderTransverse(BinaryTreeNode *t){
     if(t==NULL){
         return;
     }
-    PostOrderTransverse(t->LChild);
-    PostOrderTransverse(t->RChild);
-    printf("%c",t->Data);
+    PostOrderTransverse(t->LChild);  //后序遍历根结点的左子树
+    PostOrderTransverse(t->RChild);  //然后后序遍历根结点的右子树
+    printf("%c",t->Data);            //最后打印输出根结点，此处可以定义其他操作
 }
 
 
-// 先序遍历构建二叉树
+//先序遍历构建二叉树
 BinaryTreeNode *PreCreateBt(BinaryTreeNode *t){
     char ch;
     ch = getchar();
-    if(ch == '#'){
+    if(ch == '#'){                           //输入为#表示这里建立空二叉树，即遍历算法的空操作
         t = NULL;
     }
     else{
         t = (BinaryTreeNode *)malloc(sizeof(BinaryTreeNode));
-        t->Data = ch;
-        t->LChild = PreCreateBt(t->LChild);
-        t->RChild = PreCreateBt(t->RChild);
+        t->Data = ch;                        //构造根结点
+        t->LChild = PreCreateBt(t->LChild);  //构造左子树
+        t->RChild = PreCreateBt(t->RChild);  //构造右子树
     }
     return t;
 }
@@ -60,7 +60,7 @@ BinaryTreeNode *PreCreateBt(BinaryTreeNode *t){
 
 int main(){
     BinaryTreeNode *t = NULL;
-    t = PreCreateBt(t);  //有返回值，所以前面要加个t = ，不然后面没东西输出
+    t = PreCreateBt(t);                     //有返回值，所以前面要加个t = ，不然后面没东西输出
     printf("\nPreOrderTransverse:\n");
 	PreOrderTransverse(t);
     printf("\n\nInOrderTransverse:\n");
