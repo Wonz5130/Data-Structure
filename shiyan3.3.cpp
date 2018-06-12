@@ -41,7 +41,7 @@ Status Init(LGraph *lg,int nSize){
 }
 
 
-//邻接表的撤销
+//邻接表的撤销(改成了int型，有返回值)
 int Destory(LGraph *lg){
     int i;
     ENode *p,*q;
@@ -135,7 +135,7 @@ int main(){
     //search the deleted edge
     if(Remove(&g,u,v)) printf("OK");
     else printf("ERROR");
-    //remove
+    //destory
     printf("\nNow destory the graph:");
     if(Destory(&g)) printf("OK");
     else printf("ERROR");
