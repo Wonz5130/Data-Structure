@@ -152,7 +152,7 @@ void DFSGraph(LGraph g){
             DFS(i,visited,g);
         }
     }
-    free(visited);                                 //释放visted数组
+    free(visited);                                  //释放visted数组
 }
 
 
