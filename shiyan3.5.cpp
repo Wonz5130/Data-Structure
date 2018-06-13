@@ -79,24 +79,24 @@ Status Remove(mGraph *mg,int u,int v){
 
 
 //选出最小的d[i],i ∈ V-S
-int Choose(int d[],int n,int s[]){
+int Choose(int d[],int n,int s[]){  //对教材进行了一点改动,形式参数设置为数组而不是指针,参考了陈惠南老师的《数据结构——C语言描述》
     int i,minpos;
     ElemType min;
     min = INFTY;
     minpos = -1;
-    for(i = 0;i < n;i ++){
-        if(d[i] <= min && !s[i]){
+    for(i = 0;i < n;i ++){         //这里i初值改为0
+        if(d[i] <= min && !s[i]){  //<改为<=
             min = d[i];
             minpos = i;
         }
     }
-    return minpos;  //返回下标位置
+    return minpos;                //返回下标位置
 }
 
 
 //Dijkstra算法
-Status Dijkstra(mGraph g,int v,int d[],int path[]){
-    int i,k,w,distance = 0;
+Status Dijkstra(mGraph g,int v,int d[],int path[]){  //对教材进行了一点改动,形式参数设置为数组而不是指针,参考了陈惠南老师的《数据结构——C语言描述》
+    int i,k,w,distance = 0;       //增加了一个distance记录最短距离之和
     int *s;
     if(v < 0||v > g.n-1){
         return ERROR;
@@ -111,9 +111,9 @@ Status Dijkstra(mGraph g,int v,int d[],int path[]){
         else path[i] = -1;
     }
     s[v] = 1;                     //顶点v为源点,将原点v加入集合S
-    printf("%d ",v);
+    printf("%d ",v);              //输出源点0
     d[v] = 0;
-    for(i = 1;i <= g.n-1;i ++){   //产生n-1条最短路径
+    for(i = 1;i <= g.n-1;i ++){   //产生n-1条最短路径,<改为<=
         k = Choose(d,g.n,s);      //求当前路径最短者k
         s[k] = 1;                 //将k加入集合S中
         printf("%d ",k);
